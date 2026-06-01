@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Art-Holic</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">A</div>
+      <div>
+        <p class="brand-label">Art-Holic</p>
+        <p class="brand-subtitle">Buy, sell, and collect premium digital art.</p>
+      </div>
+    </div>
+    <div class="search-bar">
+      <div class="search-row">
+        <input id="searchInput" type="search" placeholder="Search digital art, illustrations, artists" />
+        <button id="searchButton" aria-label="Search">Search</button>
+      </div>
+      <div class="search-tags">
+        <button class="search-tag">Illustration</button>
+        <button class="search-tag">3D Art</button>
+        <button class="search-tag">Anime</button>
+        <button class="search-tag">Game Art</button>
+        <button class="search-tag">Animals</button>
+        <button class="search-tag">Fantasy</button>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="cartButton" class="icon-btn">
+        Cart <span id="cartBadge" class="cart-badge">0</span>
+      </button>
+      <button id="profileBtn" class="profile-btn">AH</button>
+      <div id="profileMenu" class="profile-menu hidden">
+        <button id="viewProfileBtn" class="profile-menu-item">View Profile</button>
+        <button id="settingsBtn" class="profile-menu-item">Settings</button>
+        <button id="logoutBtn" class="profile-menu-item logout-item">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="auth-modal-overlay hidden">
+    <div class="auth-modal">
+      <button class="close-auth-btn" data-modal="login">&times;</button>
+      <div class="auth-header">
+        <h2>Welcome back</h2>
+        <p>Sign in to your Art-Holic account</p>
+      </div>
+      <div class="auth-modal-content">
+        <form id="loginForm" class="auth-form">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" name="email" placeholder="your@email.com" required />
+            <span class="error-message" id="loginEmailError"></span>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required />
+            <span class="error-message" id="loginPasswordError"></span>
+          </div>
+          <button type="submit" class="auth-submit-btn">Sign in</button>
+          <span class="error-message" id="loginFormError"></span>
+        </form>
+      </div>
+      <div class="auth-footer">
+        <p>Don't have an account? <button id="switchToRegister" class="switch-auth-btn">Create one</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Registration Modal -->
+  <div id="registerModal" class="auth-modal-overlay hidden">
+    <div class="auth-modal">
+      <button class="close-auth-btn" data-modal="register">&times;</button>
+      <div class="auth-modal-content">
+        <div class="auth-header">
+          <h2>Create account</h2>
+          <p>Join Art-Holic and start collecting</p>
+        </div>
+        <form id="registerForm" class="auth-form">
+          <div class="form-group">
+            <label for="registerFirstName">First Name</label>
+            <input type="text" id="registerFirstName" name="firstName" placeholder="John" required />
+            <span class="error-message" id="registerFirstNameError"></span>
+          </div>
+          <div class="form-group">
+            <label for="registerLastName">Last Name</label>
+            <input type="text" id="registerLastName" name="lastName" placeholder="Doe" required />
+            <span class="error-message" id="registerLastNameError"></span>
+          </div>
+          <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input type="email" id="registerEmail" name="email" placeholder="your@email.com" required />
+            <span class="error-message" id="registerEmailError"></span>
+          </div>
+          <div class="form-group">
+            <label for="registerPassword">Password</label>
+            <input type="password" id="registerPassword" name="password" placeholder="Minimum 8 characters" required />
+            <span class="error-message" id="registerPasswordError"></span>
+          </div>
+          <div class="form-group">
+            <label for="registerConfirmPassword">Confirm Password</label>
+            <input type="password" id="registerConfirmPassword" name="confirmPassword" placeholder="Re-enter password" required />
+            <span class="error-message" id="registerConfirmPasswordError"></span>
+          </div>
+          <div class="form-group">
+            <label for="registerBirthDate">Birth Date</label>
+            <input type="date" id="registerBirthDate" name="birthDate" required />
+            <span class="error-message" id="registerBirthDateError"></span>
+          </div>
+          <div class="form-group">
+            <label for="registerCountry">Country</label>
+            <input type="text" id="registerCountry" name="country" placeholder="United States" required />
+            <span class="error-message" id="registerCountryError"></span>
+          </div>
+          <button type="submit" class="auth-submit-btn">Create account</button>
+          <span class="error-message" id="registerFormError"></span>
+        </form>
+        <div class="auth-footer">
+          <p>Already have an account? <button id="switchToLogin" class="switch-auth-btn">Sign in</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="auth-modal-overlay hidden">
+    <div class="auth-modal">
+      <button class="close-auth-btn" data-modal="settings">&times;</button>
+      <div class="auth-modal-content">
+        <div class="auth-header">
+          <h2>Account settings</h2>
+          <p>View your email and update your password.</p>
+        </div>
+        <form id="settingsForm" class="auth-form">
+          <div class="form-group">
+            <label for="settingsEmail">Email</label>
+            <input type="email" id="settingsEmail" name="email" disabled />
+          </div>
+          <div class="form-group">
+            <label for="settingsCurrentPassword">Current password</label>
+            <input type="password" id="settingsCurrentPassword" name="currentPassword" placeholder="Enter current password" required />
+            <span class="error-message" id="settingsCurrentPasswordError"></span>
+          </div>
+          <div class="form-group">
+            <label for="settingsNewPassword">New password</label>
+            <input type="password" id="settingsNewPassword" name="newPassword" placeholder="Minimum 8 characters" required />
+            <span class="error-message" id="settingsNewPasswordError"></span>
+          </div>
+          <div class="form-group">
+            <label for="settingsConfirmPassword">Confirm new password</label>
+            <input type="password" id="settingsConfirmPassword" name="confirmPassword" placeholder="Re-enter new password" required />
+            <span class="error-message" id="settingsConfirmPasswordError"></span>
+          </div>
+          <div class="form-group settings-show-password">
+            <input type="checkbox" id="showSettingsPassword" />
+            <label for="showSettingsPassword">Show passwords</label>
+          </div>
+          <button type="submit" class="auth-submit-btn">Save changes</button>
+          <span class="error-message" id="settingsFormError"></span>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Profile Modal -->
+  <div id="editProfileModal" class="auth-modal-overlay hidden">
+    <div class="auth-modal">
+      <button class="close-auth-btn" data-modal="editProfile">&times;</button>
+      <div class="auth-modal-content">
+        <div class="auth-header">
+          <h2>Edit profile</h2>
+          <p>Update your artist name, profile picture, and bio.</p>
+        </div>
+        <form id="editProfileForm" class="auth-form">
+          <div class="form-group">
+            <label for="profileArtistName">Artist name</label>
+            <input type="text" id="profileArtistName" name="artistName" placeholder="Your creative name" required />
+            <span class="error-message" id="profileArtistNameError"></span>
+          </div>
+          <div class="form-group">
+            <label for="profileBio">Bio / description</label>
+            <textarea id="profileBio" name="bio" placeholder="Tell people about your style" rows="4"></textarea>
+            <span class="error-message" id="profileBioError"></span>
+          </div>
+          <div class="form-group">
+            <label for="profilePicture">Profile picture</label>
+            <input type="file" id="profilePicture" accept="image/*" />
+            <span class="error-message" id="profilePictureError"></span>
+            <div id="profilePicPreview" class="upload-image-preview hidden">
+              <img id="profilePicPreviewImage" alt="Profile preview" />
+            </div>
+          </div>
+          <button type="submit" class="auth-submit-btn">Save profile</button>
+          <span class="error-message" id="profileFormError"></span>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Artwork Modal -->
+  <div id="uploadModal" class="auth-modal-overlay hidden">
+    <div class="auth-modal">
+      <button class="close-auth-btn" data-modal="upload">&times;</button>
+      <div class="auth-modal-content">
+        <div class="auth-header">
+          <h2>Upload artwork</h2>
+          <p>Add a new piece, set its title, description, price, and choose tags.</p>
+        </div>
+        <form id="uploadForm" class="auth-form">
+          <div class="form-group">
+            <label for="uploadTitle">Title</label>
+            <input type="text" id="uploadTitle" name="title" placeholder="Artwork title" required />
+            <span class="error-message" id="uploadTitleError"></span>
+          </div>
+          <div class="form-group">
+            <label for="uploadDescription">Description</label>
+            <input type="text" id="uploadDescription" name="description" placeholder="Brief artwork description" required />
+            <span class="error-message" id="uploadDescriptionError"></span>
+          </div>
+          <div class="form-group">
+            <label for="uploadPrice">Price</label>
+            <input type="text" id="uploadPrice" name="price" placeholder="e.g. 45" required />
+            <span class="error-message" id="uploadPriceError"></span>
+          </div>
+          <div class="form-group">
+            <label>Choose existing tags</label>
+            <div id="uploadTagOptions" class="upload-tag-options"></div>
+            <span class="form-note">Tap tags to select them, or add a custom tag below.</span>
+          </div>
+          <div class="form-group">
+            <label for="uploadCustomTags">Custom tags</label>
+            <input type="text" id="uploadCustomTags" name="customTags" placeholder="Comma-separated custom tags" />
+            <span class="error-message" id="uploadCustomTagsError"></span>
+          </div>
+          <div class="form-group">
+            <label for="uploadImage">Artwork image</label>
+            <input type="file" id="uploadImage" accept="image/*" />
+            <span class="error-message" id="uploadImageError"></span>
+            <div id="uploadPreview" class="upload-image-preview hidden">
+              <img id="uploadPreviewImage" alt="Preview" />
+            </div>
+          </div>
+          <button type="submit" class="auth-submit-btn">Submit artwork</button>
+          <span class="error-message" id="uploadFormError"></span>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="cartPanel" class="cart-panel hidden">
+    <div class="cart-header">
+      <div>
+        <h3>Shopping cart</h3>
+        <p id="cartSummary">Track the artworks you added with quantity control.</p>
+      </div>
+      <div class="cart-actions">
+        <button id="removeAllButton" class="action-btn">Remove All</button>
+        <button id="closeCartButton" class="action-btn">Close</button>
+      </div>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-footer">
+      <p id="cartTotal">Total items: 0</p>
+      <button id="checkoutButton" class="checkout-btn">Checkout</button>
+    </div>
+  </div>
+
+  <div id="orderModal" class="modal-overlay hidden">
+    <div class="order-modal">
+      <div class="modal-header">
+        <h3>Order summary</h3>
+        <button id="cancelPurchaseButton" class="action-btn">Cancel</button>
+      </div>
+      <div id="orderItems" class="order-items"></div>
+      <div class="modal-footer">
+        <p id="orderTotal">Total: $0</p>
+        <div>
+          <button id="confirmPurchaseButton" class="checkout-btn">Confirm Purchase</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="artworkDetailsModal" class="artwork-modal-overlay hidden">
+    <div class="artwork-modal">
+      <button id="closeArtworkModal" class="close-artwork-btn">&times;</button>
+      <div class="artwork-modal-content">
+        <div class="artwork-image-section">
+          <img id="artworkModalImage" src="" alt="artwork" />
+        </div>
+        <div class="artwork-details-section">
+          <div class="details-scroll">
+            <div class="details-header">
+              <h2 id="artworkModalTitle"></h2>
+              <p id="artworkModalPrice" class="modal-price"></p>
+            </div>
+            
+            <div id="artworkModalDescription" class="modal-description"></div>
+            <div id="artworkModalTags" class="modal-tags"></div>
+
+            <div class="ratings-section">
+              <h4>Ratings</h4>
+              <div class="rating-display">
+                <span id="artworkModalStars" class="stars-display"></span>
+                <span id="artworkModalRating" class="rating-number"></span>
+              </div>
+            </div>
+
+            <div class="comments-section">
+              <h4>Comments from verified buyers</h4>
+              <div id="artworkModalComments" class="comments-list"></div>
+            </div>
+          </div>
+
+          <div class="artist-info-footer">
+            <img id="artworkModalArtistPic" src="" alt="artist" class="artist-pic" />
+            <div class="artist-info-text">
+              <button id="artworkModalArtistName" class="artist-name-btn"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="page-layout">
+    <aside class="sidebar">
+      <div class="sidebar-card tabs-card">
+        <h2>Navigation</h2>
+        <div class="tabs-row">
+          <button class="tab-btn active" data-tab="home">Home</button>
+          <button class="tab-btn" data-tab="recommended">Recommended art</button>
+          <button class="tab-btn" data-tab="personal">Personal works</button>
+          <button class="tab-btn" data-tab="profile">Profile</button>
+          <button class="tab-btn admin-tab hidden" data-tab="finances">Finances</button>
+        </div>
+      </div>
+      <div class="sidebar-card stats-card">
+        <p class="stat-value">5.3K</p>
+        <p>Artworks listed</p>
+      </div>
+      <div class="sidebar-card stats-card">
+        <p class="stat-value">1.2K</p>
+        <p>Verified creators</p>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div id="heroPanel" class="hero-panel">
+        <div>
+          <p class="eyebrow">Digital art marketplace</p>
+          <h1>Discover original illustrations, NFTs, and digital prints.</h1>
+          <p>Browse curated collections by top creators, instantly buy or commission exclusive pieces.</p>
+        </div>
+        <button class="cta-btn">Shop now</button>
+      </div>
+
+      <div class="grid-header">
+        <div>
+          <h2 id="gridTitle">Featured marketplace listings</h2>
+          <p id="gridSubtitle">Popular digital art pieces ready for purchase and download.</p>
+        </div>
+        <button id="loadMoreButton" class="secondary-btn">Load more</button>
+      </div>
+
+      <div id="pinGrid" class="pin-grid"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
